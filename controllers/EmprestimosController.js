@@ -33,6 +33,25 @@ class EmprestimosController {
             return res.status(500).json(error.message);
         }
     }
+    static async selecionarEmprestimosDoUsuario(req, res){
+            const {id} = req.params;
+            try{
+                const emprestimo = await database.emprestimos.findOne({where: {id: Number(id)}});
+                if(!emprestimo){
+                    return res.status(404).send("Não foi possível encontrar um emprestimo com este id!");
+                }
+                const select = await database.emprestimos.findOne({include: [
+                    {model: database.usuarios,
+                    attributes: ['nome', 'data_nascimento']},
+                    {model: database.livros,
+                    attributes:['titulo']}
+                    ],
+                    attributes: ['data_emprestimo', 'data_devolucao', 'status']});
+                return res.status(200).json(select);
+            } catch (error) {
+                return res.status(500).json(error.message);
+            }
+    }
     static async atualizarEmprestimo(req, res){
         const {id} = req.params;
         const novosDados = req.body;
