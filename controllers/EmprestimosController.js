@@ -26,7 +26,7 @@ class EmprestimosController {
         try{
             const select = await database.emprestimos.findOne({where: {id: Number(id)}});
             if(!select){
-                return res.status(404).send("Não há nenhum empréstimo cadastrado no sistema!")
+                return res.status(404).send("Não foi possível encontrar um empréstimo com este id!")
             }
             return res.status(200).json(select);
         } catch (error) {
@@ -39,7 +39,7 @@ class EmprestimosController {
         try{
             const select = await database.emprestimos.findOne({where: {id: Number(id)}});
             if(!select){
-                return res.status(404).send("Não há nenhum empréstimo cadastrado no sistema!")
+                return res.status(404).send("Não foi possível encontrar um empréstimo com este id!")
             }
             await database.emprestimos.update(novosDados, {where: {id: Number(id)}});
             return res.status(200).json({message: "Empréstimo atualizado com sucesso!", novosDados});
@@ -52,7 +52,7 @@ class EmprestimosController {
         try{
             const select = await database.emprestimos.findOne({where: {id: Number(id)}});
             if(!select){
-                return res.status(404).send("Não há nenhum empréstimo cadastrado no sistema!")
+                return res.status(404).send("Não foi possível encontrar um empréstimo com este id!")
             }
             await database.emprestimos.destroy({where: {id: Number(id)}});
             return res.status(200).send("Empréstimo deletado com sucesso!");
