@@ -18,7 +18,7 @@ class UsuariosController{
     }
     static async selecionarTodosUsuarios(req, res){
         try{
-            const select = await database.usuarios.findAll();
+            const select = await database.usuarios.findAll({attributes: ['id', 'nome', 'email', 'data_nascimento']});
             if(!select){
                 return res.status(404).send("Não há nenhum usuário cadastrado no sistema!");
             }
@@ -30,7 +30,7 @@ class UsuariosController{
     static async selecionarUsuarioPeloId(req, res){
         const {id} = req.params
         try{
-            const select = await database.usuarios.findOne({where: {id: Number(id)}});
+            const select = await database.usuarios.findOne({where: {id: Number(id)}, attributes: ['id', 'nome', 'email', 'data_nascimento']});
             if(!select){
                 return res.status(404).send("Não foi possível encontrar um usuário com este id!");
             }
@@ -43,7 +43,7 @@ class UsuariosController{
         const {id} = req.params;
         const novosDados = req.body;
         try{
-            const select = await database.usuarios.findOne({where: {id: Number(id)}});
+            const select = await database.usuarios.findOne({where: {id: Number(id)}, attributes: ['id', 'nome', 'email', 'data_nascimento']});
             if(!select){
                 return res.status(404).send("Não foi possível encontrar um usuário com este id!");
             }
