@@ -3,10 +3,18 @@ const database = require("../models");
 class EmprestimosController {
     static async criarEmprestimo(req, res){
         const dados = req.body;
+        const transacao = await database.sequelize.transaction();
         try{
             const create = await database.emprestimos.create(dados);
+            await database.historico_emprestimos.create({
+                emprestimo_id: create.id,
+                data_devolucao: dados.data_devolucao,
+                status: dados.status,
+            }, {transaction: transacao})
+            await transacao.commit();
             return res.status(201).json(create);
         } catch (error) {
+            await transacao.rollback();
             return res.status(500).json(error.message);
         }
     }
