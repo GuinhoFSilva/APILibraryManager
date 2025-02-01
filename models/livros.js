@@ -20,10 +20,10 @@ module.exports = (sequelize, DataTypes) => {
     titulo: DataTypes.STRING,
     autor: DataTypes.STRING,
     descricao: DataTypes.TEXT,
-    data_publicacao: DataTypes.DATE,
+    data_publicacao: DataTypes.DATEONLY,
     isbn: DataTypes.STRING,
     link_googlebooks: DataTypes.STRING,
-    data_adicao: DataTypes.DATE
+    data_adicao: DataTypes.DATEONLY
   }, {
     sequelize,
     modelName: 'livros',

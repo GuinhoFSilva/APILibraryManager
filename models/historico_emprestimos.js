@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   historico_emprestimos.init({
-    data_devolucao: DataTypes.DATE,
+    data_devolucao: DataTypes.DATEONLY,
     status: DataTypes.STRING
   }, {
     sequelize,

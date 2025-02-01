@@ -19,7 +19,7 @@ module.exports = {
         type: Sequelize.TEXT
       },
       data_publicacao: {
-        type: Sequelize.DATE
+        type: Sequelize.DATEONLY
       },
       isbn: {
         type: Sequelize.STRING
@@ -28,7 +28,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       data_adicao: {
-        type: Sequelize.DATE
+        type: Sequelize.DATEONLY
       },
       createdAt: {
         allowNull: false,

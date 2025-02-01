@@ -23,8 +23,8 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   emprestimos.init({
-    data_emprestimo: DataTypes.DATE,
-    data_devolucao: DataTypes.DATE,
+    data_emprestimo: DataTypes.DATEONLY,
+    data_devolucao: DataTypes.DATEONLY,
     status: DataTypes.STRING
   }, {
     sequelize,

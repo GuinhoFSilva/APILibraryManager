@@ -20,7 +20,7 @@ class UsuariosController{
         try{
             const select = await database.usuarios.findAll({attributes: ['id', 'nome', 'email', 'data_nascimento']});
             if(!select){
-                return res.status(404).send("Não há nenhum usuário cadastrado no sistema!");
+                return res.status(200).send("Não há nenhum usuário cadastrado no sistema!");
             }
             return res.status(200).json(select);
         } catch (error) {

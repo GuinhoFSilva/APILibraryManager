@@ -20,10 +20,10 @@ module.exports = {
         references: {model: 'livros', key: 'id'}
       },
       data_emprestimo: {
-        type: Sequelize.DATE
+        type: Sequelize.DATEONLY
       },
       data_devolucao: {
-        type: Sequelize.DATE
+        type: Sequelize.DATEONLY
       },
       status: {
         type: Sequelize.STRING

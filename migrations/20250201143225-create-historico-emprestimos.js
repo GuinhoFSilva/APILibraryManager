@@ -15,7 +15,7 @@ module.exports = {
         references: {model: 'emprestimos', key: 'id'}
       },
       data_devolucao: {
-        type: Sequelize.DATE
+        type: Sequelize.DATEONLY
       },
       status: {
         type: Sequelize.STRING
