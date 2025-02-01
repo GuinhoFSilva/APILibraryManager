@@ -26,7 +26,11 @@ module.exports = {
         type: Sequelize.DATEONLY
       },
       status: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false,
+        validate: {
+            isIn: [['pendente', 'devolvido', 'danificado']]
+        }
       },
       createdAt: {
         allowNull: false,

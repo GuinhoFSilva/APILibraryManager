@@ -5,7 +5,7 @@ class EmprestimosController {
         const dados = req.body;
         const transacao = await database.sequelize.transaction();
         try{
-            const create = await database.emprestimos.create(dados);
+            const create = await database.emprestimos.create(dados, {transaction: transacao});
             await database.historico_emprestimos.create({
                 emprestimo_id: create.id,
                 data_devolucao: dados.data_devolucao,
@@ -72,12 +72,26 @@ class EmprestimosController {
         const novosDados = req.body;
         try{
             const select = await database.emprestimos.findOne({where: {id: Number(id)}});
+            const transacao = await database.sequelize.transaction();
             if(!select){
                 return res.status(404).send("Não foi possível encontrar um empréstimo com este id!")
             }
-            await database.emprestimos.update(novosDados, {where: {id: Number(id)}});
+            const statusPermitidos = ["pendente", "devolvido", "danificado"];
+            if (!statusPermitidos.includes(novosDados.status)) {
+                return res.status(400).send("Status inválido! Use apenas 'pendente', 'devolvido' ou 'danificado'");
+            }
+            await database.emprestimos.update(novosDados, {where: {id: Number(id)}}, {transaction: transacao});
+
+            await database.historico_emprestimos.create({
+                emprestimo_id: select.id,
+                data_devolucao: novosDados.data_devolucao,
+                status: novosDados.status,
+                }, {transaction: transacao});
+
+            await transacao.commit();
             return res.status(200).json({message: "Empréstimo atualizado com sucesso!", novosDados});
         } catch (error) {
+            await transacao.rollback();
             return res.status(500).json(error.message);
         }
     }
@@ -87,6 +101,9 @@ class EmprestimosController {
             const select = await database.emprestimos.findOne({where: {id: Number(id)}});
             if(!select){
                 return res.status(404).send("Não foi possível encontrar um empréstimo com este id!")
+            }
+            if(select.status !== "devolvido"){
+                return res.status(400).send("O livro não foi devolvido, não é possível deletar este empréstimo!");
             }
             await database.emprestimos.destroy({where: {id: Number(id)}});
             return res.status(200).send("Empréstimo deletado com sucesso!");

@@ -19,7 +19,7 @@ class LivrosController{
                 console.log(resposta.data.items[0]);
                 const dadosLivro = {
                     titulo: livro.title,
-                    autor: livro.authors[0],
+                    autor: livro.authors ? livro.authors[0] : "Autor desconhecido",
                     descricao: livro.description || "Descrição não disponível",
                     data_publicacao: livro.publishedDate,
                     isbn: livro.industryIdentifiers ? livro.industryIdentifiers.find(id => id.type === "ISBN_13")?.identifier : null,
