@@ -91,7 +91,7 @@ class EmprestimosController {
             await transacao.commit();
             return res.status(200).json({message: "Empréstimo atualizado com sucesso!", novosDados});
         } catch (error) {
-            await transacao.rollback();
+            if(transacao) await transacao.rollback();
             return res.status(500).json(error.message);
         }
     }
