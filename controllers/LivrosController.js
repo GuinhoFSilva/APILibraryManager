@@ -45,7 +45,7 @@ class LivrosController{
             return res.status(500).json(error.message);
         }
     }
-    static async selecionarLivroPorId(req, res){
+    static async selecionarLivroPeloId(req, res){
         const {id} = req.params;
         try{
             const select = await database.livros.findOne({where: {id: Number(id)}});
