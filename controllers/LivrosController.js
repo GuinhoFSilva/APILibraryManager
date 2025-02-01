@@ -4,7 +4,6 @@ const axios = require('axios');
 class LivrosController{
     static async adicionarLivro(req, res){
         const titulo = req.params.titulo;
-        console.log(titulo);
         try{
             const resposta = await axios.get(`https://www.googleapis.com/books/v1/volumes`, {
                 params: {
@@ -81,7 +80,7 @@ class LivrosController{
             await database.livros.destroy({where: {id: Number(id)}});
             return res.status(200).send("Livro deletado com sucesso!");
         } catch (error) {
-
+            return res.status(500).json(error.message);
         }
     }
 
